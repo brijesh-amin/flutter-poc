@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'Api_bloc.dart';
+import 'HomeScreen.dart';
+import 'UserDetail.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,9 +21,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primaryColor: Color.fromRGBO(127, 151, 46, 1),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'CASTLETON'),
     );
   }
 }
@@ -44,68 +47,192 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  TextEditingController _strServiceURL = new TextEditingController();
+  TextEditingController _strEmailAddress = new TextEditingController();
+  TextEditingController _strPassword = new TextEditingController();
+
+  //set initial value
+  @override
+  void initState() {
+    super.initState();
+    _strServiceURL.text = 'https://dev.365agile.com/365agile.mobile.service.dev/';
+    _strEmailAddress.text = 'Kandarp.Pathak';
+    _strPassword.text = '6H?S7\$LguT';
+  }
+
+  String _serviceURL = '';
+  String _email = '';
+  String _password = '';
+
+  _MyHomePageState() {
+    _strServiceURL.addListener(_serviceURLListen);
+    _strEmailAddress.addListener(_emailListen);
+    _strPassword.addListener(_passwordListen);
+  }
+
+//Reflect textfield edited value
+  void _serviceURLListen() {
+    if(_strServiceURL.text.isEmpty){
+      _serviceURL = '';
+    } else {
+      _serviceURL =_strServiceURL.text;
+    }
+  }
+
+  void _emailListen() {
+    if(_strEmailAddress.text.isEmpty){
+      _email = '';
+    } else {
+      _email =_strEmailAddress.text;
+    }
+  }
+
+  void _passwordListen() {
+    if(_strPassword.text.isEmpty){
+      _password = '';
+    } else {
+      _password =_strPassword.text;
+    }
+  }
+
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
+  }
+
+  void _getUserDetail() {
+    String imei = '65323BFD-F232-4CD9-834E-742F9A3E6A33';
+    String accessToken = 'tW+j6Xni9JtXvaDatq64K0vbAvuAFdHFQGq31o/zjKs=';
+    String dateTime = '2019-02-04T16:01:20';
+    bloc.fetchUserDetail(imei, accessToken, dateTime);
+  }
+
+  void _staffValidation() {
+    String imei = 'BF2B52B3-52C6-4CF8-B446-619A96344FAD';
+    String devicetoken = 'PeLocAXvcl5CmME+jvQeX8Uhmqaj6P/WZTviGI42YcE=';
+    String emailAddress = _email;
+    String password = _password;
+    String dateTime = '2019-03-27T14:18:15';
+    bloc.validateStaff(imei, devicetoken, dateTime, emailAddress, password);
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
+   return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+      //body: UserDetail(),
+      body: new Container(
+        padding: EdgeInsets.all(16.0),
+        child:StreamBuilder(
+          stream: bloc.validateUser,
+          builder: (BuildContext context, snapshot) {
+            if(snapshot.hasData){
+              return _moveToHomeScreen();
+            }
+            return Column(
+              children: <Widget>[
+                _createInputFields(),
+                _createRegisterButton(),
+              ],
+            );
+          }
         ),
+        // child: new Column(
+        //   children: <Widget>[
+        //     _createInputFields(),
+        //     _createRegisterButton(),
+        //   ],
+        // ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   // onPressed: _getUserDetail,
+      //   onPressed: _staffValidation,
+      //   tooltip: 'Increment',
+      //   child: Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+    // return StreamBuilder(
+    //   stream: bloc.validateUser,
+    //   builder: (context, snapshot) => Center(
+    //         child: Column(
+    //           mainAxisAlignment: MainAxisAlignment.center,
+    //           children: <Widget>[
+    //             Text(
+    //               '${snapshot.data}',
+    //               style: Theme.of(context).textTheme.display1,
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    // );
+  }
+
+  Widget _createInputFields() {
+    return new Container(
+      child: new Column(
+        children: <Widget>[
+          new Container(
+            child: new TextField(
+              controller: _strServiceURL,
+              decoration: new InputDecoration(
+                labelText: 'Service URL'
+              ),
+            )
+          ),
+          new Container(
+            child: new TextField(
+              controller: _strEmailAddress,
+              decoration: new InputDecoration(
+                labelText: 'Email'
+              ),
+            ),
+          ),
+          new Container(
+            child: new TextField(
+              controller: _strPassword,
+              decoration: new InputDecoration(
+                labelText: 'Password'
+              ),
+              obscureText: true,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _createRegisterButton() {
+    return new Container(
+      padding: EdgeInsets.only(top: 40.0),
+      alignment: Alignment.topRight,
+      child: new Column(
+        children: <Widget>[
+          new OutlineButton(
+            child: new Text('Register'),
+            onPressed: _registerButtonClicked,
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+            borderSide: BorderSide(
+            color: Color.fromRGBO(127, 151, 46, 1),
+            style: BorderStyle.solid,
+            width: 1.0,
+          ),
+            textColor: Color.fromRGBO(127, 151, 46, 1),
+          )
+        ],
+      ),
+    );
+  }
+
+  void _registerButtonClicked() {
+    print('inside register button $_email, $_password, $_serviceURL');
+    _staffValidation();
+  }
+  Widget _moveToHomeScreen ()  {
+    return HomeScreen();
   }
 }
