@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-
+BuildContext con;
 class HomeScreen extends StatelessWidget {
-
   const HomeScreen(
       {Key key})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    con = context;
       return Container(
         alignment: Alignment.center,
         child: new Column(
@@ -40,7 +41,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _searchPersonBtnClicked() {
-
+    Navigator.of(con).pushReplacementNamed('/SearchPersonScreen');
   }
   void _searchPropertyBtnClicked() {
 
