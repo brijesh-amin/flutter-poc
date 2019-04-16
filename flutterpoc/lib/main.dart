@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/SearchPersonScreen.dart';
+import 'SearchPersonScreen.dart';
 import 'homeScreen.dart';
 import 'login.dart';
 import 'splashScreen.dart';
@@ -14,7 +14,7 @@ void main() => runApp(new MyApp());
         routes: <String, WidgetBuilder>{
           "/HomeScreen": (BuildContext context) => HomeScreen(),
           "/login": (BuildContext context) => login(),
-          "/SearchPersonScreen": (BuildContext context) => SearchPersonScreen(),
+          "/searchPersonScreen": (BuildContext context) => SearchPersonScreen(),
         },
         home:
         SplashScreen(),

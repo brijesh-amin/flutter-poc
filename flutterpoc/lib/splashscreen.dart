@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
                 ),
-                Container(margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
+                Container(
                   child:
                   Text("Version 1.0.0\n@Copyright Castleton 2019", style: TextStyle(fontSize: 16.0, color: Colors.black,),
                   ),

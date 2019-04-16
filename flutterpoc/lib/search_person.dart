@@ -9,7 +9,7 @@ class SearchList extends StatefulWidget {
 
 class _SearchListState extends State<SearchList>
 {
-  Widget appBarTitle = new Text("Search Sample", style: new TextStyle(color: Colors.white),);
+  Widget appBarTitle = new Text("Search Person", style: new TextStyle(color: Colors.white),);
   Icon actionIcon = new Icon(Icons.search, color: Colors.white,);
   final key = new GlobalKey<ScaffoldState>();
   final TextEditingController _searchQuery = new TextEditingController();
@@ -79,6 +79,8 @@ class _SearchListState extends State<SearchList>
           .toList();
     }
     else {
+      //Future<String> response = requestSearchAPI();
+      //print("Res->" + response.toString());
       List<String> _searchList = List();
       for (int i = 0; i < _list.length; i++) {
         String  name = _list.elementAt(i);
@@ -91,9 +93,32 @@ class _SearchListState extends State<SearchList>
     }
   }
 
+  /*requestSearchAPI() async {
+    final url = "https://mobile.saxonweald.com:443/StaffTest/MobileService.svc/REST/searchPerson";
+
+    Map<String, String> body = {
+      'imei': 'b236d19e-3479-4441-890e-4edd243de69c' ,
+      'datetime': '2019-04-16',
+      'accessTokenHash': 'mP+rUnd6CEZ+w+6KvLpsCiTyODDasi+lXQ+5gmbGLW0=',
+      'searchTerm' : 'tom'
+    };
+
+    final response = await http.post(
+      url,
+      headers: {HttpHeaders.authorizationHeader: "Basic U0FYT05XRUFMRFxBZ2lsZTozNjVBZzFsZQ=="},
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      final responseJson = response.body;
+      return responseJson;
+    } else {
+      return null;
+    }
+  }*/
+
   Widget buildBar(BuildContext context) {
     return new AppBar(
-        centerTitle: true,
         title: appBarTitle,
         actions: <Widget>[
           new IconButton(icon: actionIcon, onPressed: () {
@@ -133,7 +158,7 @@ class _SearchListState extends State<SearchList>
     setState(() {
       this.actionIcon = new Icon(Icons.search, color: Colors.white,);
       this.appBarTitle =
-      new Text("Search Sample", style: new TextStyle(color: Colors.white),);
+      new Text("Search Person", style: new TextStyle(color: Colors.white),);
       _IsSearching = false;
       _searchQuery.clear();
     });

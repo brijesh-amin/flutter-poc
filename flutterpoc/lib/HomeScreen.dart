@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-BuildContext con;
+import 'SearchPersonScreen.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen(
       {Key key})
@@ -7,7 +7,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    con = context;
       return Container(
         alignment: Alignment.center,
         child: new Column(
@@ -15,7 +14,12 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             new OutlineButton(
               child: new Text('Person'),
-              onPressed: _searchPersonBtnClicked,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchPersonScreen()),
+                );
+              },
               shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
               borderSide: BorderSide(
                 color: Color.fromRGBO(127, 151, 46, 1),
@@ -40,8 +44,8 @@ class HomeScreen extends StatelessWidget {
       );
   }
 
-  void _searchPersonBtnClicked() {
-    Navigator.of(con).pushReplacementNamed('/SearchPersonScreen');
+  _searchPersonBtnClicked(BuildContext con1) {
+
   }
   void _searchPropertyBtnClicked() {
 

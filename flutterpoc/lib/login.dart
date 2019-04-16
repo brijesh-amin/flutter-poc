@@ -55,9 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _strServiceURL.text = 'https://dev.365agile.com/365agile.mobile.service.dev/';
-    _strEmailAddress.text = 'Kandarp.Pathak';
-    _strPassword.text = '6H?S7\$LguT';
+    _strServiceURL.text = 'https://mobile.saxonweald.com/stafftest';
+    _strEmailAddress.text = 'Saxonweald\\Agile';
+    _strPassword.text = '365Ag1le';
   }
 
   String _serviceURL = '';
@@ -108,11 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _staffValidation() {
-    String imei = 'BF2B52B3-52C6-4CF8-B446-619A96344FAD';
-    String devicetoken = 'PeLocAXvcl5CmME+jvQeX8Uhmqaj6P/WZTviGI42YcE=';
+    String imei = 'b236d19e-3479-4441-890e-4edd243de69c';
+    String devicetoken = 'mP+rUnd6CEZ+w+6KvLpsCiTyODDasi+lXQ+5gmbGLW0=';
     String emailAddress = _email;
     String password = _password;
-    String dateTime = '2019-03-27T14:18:15';
+    String dateTime = '2019-04-16';
     bloc.validateStaff(imei, devicetoken, dateTime, emailAddress, password);
   }
 
@@ -232,6 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _staffValidation();
   }
   Widget _moveToHomeScreen ()  {
+    print("go to home screen");
     return HomeScreen();
   }
 }
